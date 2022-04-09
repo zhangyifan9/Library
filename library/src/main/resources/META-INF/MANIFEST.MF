@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Main-Class: com.library.LibraryApplication
+Class-Path: spring-context-5.2.12.RELEASE.jar jul-to-slf4j-1.7.30.jar lo
+ g4j-api-2.13.3.jar tomcat-embed-core-9.0.41.jar jackson-datatype-jdk8-2
+ .11.3.jar log4j-to-slf4j-2.13.3.jar spring-boot-starter-2.3.7.RELEASE.j
+ ar jackson-annotations-2.11.3.jar spring-boot-starter-jdbc-2.3.7.RELEAS
+ E.jar spring-tx-5.2.12.RELEASE.jar spring-boot-starter-logging-2.3.7.RE
+ LEASE.jar slf4j-api-1.7.30.jar spring-beans-5.2.12.RELEASE.jar spring-b
+ oot-2.3.7.RELEASE.jar commons-lang3-3.12.0.jar mybatis-spring-boot-auto
+ configure-2.1.4.jar fastjson-1.2.72.jar spring-expression-5.2.12.RELEAS
+ E.jar logback-classic-1.2.3.jar logback-core-1.2.3.jar spring-boot-star
+ ter-json-2.3.7.RELEASE.jar HikariCP-3.4.5.jar jackson-core-2.11.3.jar j
+ akarta.annotation-api-1.3.5.jar jackson-module-parameter-names-2.11.3.j
+ ar jakarta.el-3.0.3.jar jackson-databind-2.11.3.jar spring-boot-starter
+ -web-2.3.7.RELEASE.jar mybatis-spring-boot-starter-2.1.4.jar spring-web
+ -5.2.12.RELEASE.jar snakeyaml-1.26.jar spring-boot-starter-tomcat-2.3.7
+ .RELEASE.jar mybatis-3.5.6.jar tomcat-embed-websocket-9.0.41.jar lombok
+ -1.18.16.jar mysql-connector-java-8.0.22.jar spring-aop-5.2.12.RELEASE.
+ jar spring-webmvc-5.2.12.RELEASE.jar spring-jcl-5.2.12.RELEASE.jar spri
+ ng-jdbc-5.2.12.RELEASE.jar mybatis-spring-2.0.6.jar spring-boot-autocon
+ figure-2.3.7.RELEASE.jar jackson-datatype-jsr310-2.11.3.jar spring-core
+ -5.2.12.RELEASE.jar
+

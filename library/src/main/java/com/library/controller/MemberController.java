@@ -29,7 +29,7 @@ public class MemberController {
      * @param newPwd 新密码
      * @return 返回操作信息msg
      */
-//    @LoginRequired
+    @LoginRequired
     @RequestMapping(path = "/member/updatePwd",method = RequestMethod.POST)
     @CrossOrigin(origins = "*",allowCredentials = "true")
     public Map<String,Object> updatePwd(String oldPwd,String newPwd){
@@ -45,7 +45,7 @@ public class MemberController {
      * @param address 新地址
      * @return 返回操作信息msg
      */
-//    @LoginRequired
+    @LoginRequired
     @RequestMapping(path = "/member/updateAddress",method = RequestMethod.POST)
     @CrossOrigin(origins = "*",allowCredentials = "true")
     public Map<String,Object> updateAddress(String pwd,String address){
@@ -62,7 +62,7 @@ public class MemberController {
      * @param phone 新电话
      * @return 返回操作信息msg
      */
-//    @LoginRequired
+    @LoginRequired
     @RequestMapping(path = "/member/updatePhone",method = RequestMethod.POST)
     @CrossOrigin(origins = "*",allowCredentials = "true")
     public Map<String,Object> updatePhone(String pwd,String phone){
@@ -78,7 +78,7 @@ public class MemberController {
      * @return: borrow information list
      * @Description: Members can view their borrowing information.
      */
-//    @LoginRequired
+    @LoginRequired
     @RequestMapping(path = "member/viewBorrow", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
     public List<Borrow> checkBorrowInformation() {
@@ -86,7 +86,7 @@ public class MemberController {
     }
 
     // 还书后，书籍划到预约者名下暂未实现
-//    @LoginRequired
+    @LoginRequired
     @RequestMapping(path = "member/borrowBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
     public Map<String, Object> borrowBook(@RequestParam int book_id) {
@@ -96,7 +96,7 @@ public class MemberController {
         return map;
     }
 
-//    @LoginRequired
+    @LoginRequired
     @RequestMapping(path = "member/renewBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
     public Map<String, Object> renewBook(@RequestParam int borrow_id) {
@@ -107,7 +107,7 @@ public class MemberController {
     }
 
     // 扣款功能暂未实现
-//    @LoginRequired
+    @LoginRequired
     @RequestMapping(path = "member/returnBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
     public Map<String, Object> returnBook(@RequestParam int borrow_id, @RequestParam double payment) {

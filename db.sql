@@ -95,26 +95,26 @@ CREATE TABLE IF NOT EXISTS login_ticket(
 
 # test
 INSERT INTO borrowmanage (`reader_id`, `book_id`, `lend_date`, `back_date`) 
-VALUES ('19030501', '5', CURDATE(), date_add(curdate(), INTERVAL 10 DAY)); 
+VALUES ('19030501', '5', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 10 DAY)); 
 
-update borrowmanage
-set back_date = DATE_ADD(back_date, interval 10 day)
-where borrow_id = 3;
+UPDATE borrowmanage
+SET back_date = DATE_ADD(back_date, INTERVAL 10 DAY)
+WHERE borrow_id = 3;
 
-delete from borrowmanage
-where borrow_id = 3;
+DELETE FROM borrowmanage
+WHERE borrow_id = 3;
 
 
-select datediff(back_date, CURDATE())
-from borrowmanage
-where borrow_id = 5;
+SELECT DATEDIFF(back_date, CURDATE())
+FROM borrowmanage
+WHERE borrow_id = 5;
 SELECT DATEDIFF(back_date, DATE_ADD(back_date, INTERVAL 10 DAY))
 FROM borrowmanage
 WHERE borrow_id = 5;
 
-update book
-set copiesnum = copiesnum+1
-where bid = 5;
+UPDATE book
+SET copiesnum = copiesnum+1
+WHERE bid = 5;
 
 UPDATE book
 SET copiesnum = copiesnum-1
@@ -128,10 +128,10 @@ UPDATE members
 SET borrownum = borrownum-1
 WHERE id = 19030501;
 
-select copiesnum
-from book
-where bid = 5
+SELECT copiesnum
+FROM book
+WHERE bid = 5
 
-select book_id
-from borrowmanage
-where borrow_id = 5;
+SELECT book_id
+FROM borrowmanage
+WHERE borrow_id = 5;

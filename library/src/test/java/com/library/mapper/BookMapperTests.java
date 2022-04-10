@@ -38,10 +38,10 @@ public class BookMapperTests {
     public void insert()
     {
         Book book = new Book();
-        book.setBid(0);
+        book.setBid(100);
         book.setBname("small dog");
         book.setAuthor("me");
-        book.setIsbn("1sa23");
+        book.setIsbn("1sa23eqw");
         book.setPrice(100);
         book.setType("ala");
         book.setIntroduction("first book");

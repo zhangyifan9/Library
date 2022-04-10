@@ -38,4 +38,16 @@
         WHERE id = #{id};
     </update>
 
+    <update id="addResvNum">
+        UPDATE members
+        SET resvnum = resvnum+1
+        WHERE id = #{id};
+    </update>
+
+    <update id="reduceResvNum">
+        UPDATE members
+        SET resvnum = resvnum-1
+        WHERE id = #{id};
+    </update>
+
 </mapper>

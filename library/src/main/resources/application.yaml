@@ -15,6 +15,7 @@ server:
   servlet:
     context-path: /library
 
+# 使用相对路径，会在项目根目录下生成一个logs文件夹，logs文件夹会有日志文件
 logging:
   file:
     path: logs

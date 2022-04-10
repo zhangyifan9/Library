@@ -25,5 +25,7 @@ public interface MemberService {
 
     public String renewBook(int borrow_id);
 
-    public String returnBook(int borrow_id, double payment);
+    public String returnBook(int borrow_id);
+
+    public String reserveBook(int book_id);
 }

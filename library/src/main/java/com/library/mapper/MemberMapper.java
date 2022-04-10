@@ -20,4 +20,8 @@ public interface MemberMapper {
     public int addBorrowNum(String id);
     // 借阅数-1
     public int reduceBorrowNum(String id);
+    // 预约数+1
+    public int addResvNum(String id);
+    // 预约数-1
+    public int reduceResvNum(String id);
 }

@@ -83,4 +83,22 @@
         WHERE bid = #{book_id}
     </select>
 
+    <update id="addResvNum">
+        UPDATE book
+        SET resvnum = resvnum+1
+        WHERE bid = #{book_id};
+    </update>
+
+    <update id="reduceResvNum">
+        UPDATE book
+        SET resvnum = resvnum-1
+        WHERE bid = #{book_id};
+    </update>
+
+    <select id="getResvNumById" resultType="int">
+        SELECT resvnum
+        FROM book
+        WHERE bid = #{book_id}
+    </select>
+
 </mapper>

@@ -4,7 +4,7 @@ import com.library.bean.Borrow;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,12 +29,21 @@ public interface BorrowMapper {
     int deleteBorrow(int borrow_id);
 
     // 计算back_date和当前时间之差
-    int calDiffCur(int borrow_id);
+    int backMinusCur(int borrow_id);
 
     // 计算back_date和lend_date之差
-    int calDiffLend(int borrow_id);
+    int backMinusLend(int borrow_id);
 
     // 获取borrow_id对应的book_id
     int getBookId(int borrow_id);
+
+    // 获取借书时间
+    Date getLendDate(int borrow_id);
+
+    // 获取最晚还书时间
+    Date getBackDate(int borrow_id);
+
+    // 获取罚款金额，如没有超期，返回0
+    double getFine(int borrow_id);
 
 }

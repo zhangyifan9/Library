@@ -26,6 +26,8 @@ public class Book {
     private String racknum;
     private Integer copiesnum;
     private Integer total;
+    // 记录当前书籍的预约数
+    private Integer resvnum;
 
     public Book(Integer total ,String author, Integer copiesnum,String bname, String type, Integer bid, String isbn, Integer price, String introduction, String barcode, String racknum) {
         this.bname = bname;

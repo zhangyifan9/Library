@@ -81,4 +81,13 @@ public interface BookMapper {
 
     // 获取指定book_id的copiesnum
     public int getCopiesNumById(int book_id);
+
+    // 预约数+1
+    public int addResvNum(int book_id);
+
+    // 预约数-1
+    public int reduceResvNum(int book_id);
+
+    // 获取指定书籍的预约数
+    public int getResvNumById(int book_id);
 }

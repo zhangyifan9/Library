@@ -85,7 +85,13 @@ public class MemberController {
         return memberService.checkBorrowInformation();
     }
 
-    // 还书后，书籍划到预约者名下暂未实现
+    /**
+     * @param book_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 借书功能
+     * @Date 2022/4/10 16:39
+     */
     @LoginRequired
     @RequestMapping(path = "member/borrowBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
@@ -96,6 +102,13 @@ public class MemberController {
         return map;
     }
 
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 续借功能
+     * @Date 2022/4/10 16:39
+     */
     @LoginRequired
     @RequestMapping(path = "member/renewBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
@@ -106,12 +119,35 @@ public class MemberController {
         return map;
     }
 
-    // 扣款功能暂未实现
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 还书功能
+     * @Date 2022/4/10 16:39
+     */
     @LoginRequired
     @RequestMapping(path = "member/returnBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
-    public Map<String, Object> returnBook(@RequestParam int borrow_id, @RequestParam double payment) {
-        String msg = memberService.returnBook(borrow_id, payment);
+    public Map<String, Object> returnBook(@RequestParam int borrow_id) {
+        String msg = memberService.returnBook(borrow_id);
+        Map<String,Object> map = new HashMap<>();
+        map.put("msg",msg);
+        return map;
+    }
+
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 预约图书
+     * @Date 2022/4/10 16:40
+     */
+    @LoginRequired
+    @RequestMapping(path = "member/reserveBook", method = RequestMethod.POST)
+    @CrossOrigin(origins = "*", allowCredentials = "true")
+    public Map<String, Object> reserveBook(@RequestParam int book_id) {
+        String msg = memberService.reserveBook(book_id);
         Map<String,Object> map = new HashMap<>();
         map.put("msg",msg);
         return map;

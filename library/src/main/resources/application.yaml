@@ -14,3 +14,7 @@ server:
   port: 8090
   servlet:
     context-path: /library
+
+logging:
+  file:
+    path: logs

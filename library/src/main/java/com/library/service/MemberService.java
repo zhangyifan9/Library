@@ -2,6 +2,7 @@ package com.library.service;
 
 import com.library.bean.Borrow;
 import com.library.bean.Member;
+import com.library.bean.Reservation;
 
 import java.util.List;
 import java.util.Map;
@@ -27,5 +28,13 @@ public interface MemberService {
 
     public String returnBook(int borrow_id);
 
+    public Map<String, Object> isFined(int borrow_id);
+
+    public List<Reservation> notifyReservation();
+
     public String reserveBook(int book_id);
+
+    public int deleteReservation(List<Integer> reservations);
+
+
 }

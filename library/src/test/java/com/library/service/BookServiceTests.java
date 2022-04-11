@@ -27,22 +27,27 @@ public class BookServiceTests {
 //    }
 
     @Test
-    void inserttest(){
+    void insertTest1(){
         try {
-            Book book = new Book();
-            book.setBid(0);
-            book.setBname("cat");
-            book.setAuthor("wangzhe");
-            book.setIsbn("1");
-            book.setPrice(100);
-            book.setType("ala");
-            book.setIntroduction("first book");
-            book.setBarcode("1010111000");
-            book.setRacknum("101");
-            book.setCopiesnum(10);
-            book.setTotal(10);
-            Integer rows = bookService.insert(book);
-            System.out.println(rows);
+            String isbn = "9787544270878";
+            String type = "悬疑类";
+            String racknum = "B203 2架B面4列1-3层";
+            Integer total = 10;
+            System.out.println(bookService.insert(isbn, type, racknum, total));
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    void insertTest2() {
+        try {
+            String isbn = "9787536692930";
+            String type = "科幻类";
+            String racknum = "B303 2架A面3列1-3层";
+            Integer total = 2;
+            System.out.println(bookService.insert(isbn, type, racknum, total));
         } catch (Exception e)
         {
             System.out.println(e.getMessage());
@@ -57,10 +62,9 @@ public class BookServiceTests {
             book.setBname("jieshu");
             book.setAuthor("ccmal");
             book.setIsbn("100");
-            book.setPrice(100);
+            book.setPrice(100.10);
             book.setType("ala");
             book.setIntroduction("first book");
-            book.setBarcode("1010111000");
             book.setRacknum("101");
             book.setCopiesnum(9);
 
@@ -140,6 +144,11 @@ public class BookServiceTests {
         {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Test
+    void testByPublished() {
+        System.out.println(bookService.findBooksByPublished("2008-1", 1, 10));
     }
 
 }

@@ -1,12 +1,12 @@
-# Version: v1.1.1
-# Date: 2022/4/10
+# Version: v1.0
+# Date: 2022/4/8
 -- Ctrl+Shift+C 注释 SQL 窗口选择内容
 -- Ctrl+Shift+R 从选择内容删除注释
 
 /*create database Library*/
-DROP DATABASE IF EXISTS Library;
-CREATE DATABASE IF NOT EXISTS Library;
-USE Library;
+DROP DATABASE IF EXISTS library;
+CREATE DATABASE IF NOT EXISTS library;
+USE library;
 /*
 create table members
 Includes basic information about the reader, 
@@ -24,22 +24,11 @@ CREATE TABLE IF NOT EXISTS members(
 	phone  VARCHAR(30),#address of the member
 	borrownum INT DEFAULT 0 NOT NULL,#number of borrowings
 	card_state  INT  NOT NULL, #0:disabled;1:available
-	`account` DECIMAL(10,2) DEFAULT 0.00 NULL,
-	`resvnum` INT DEFAULT 0 NOT NULL
+	`resvnum` INT DEFAULT 0 NOT NULL,
+	photoUrl VARCHAR(100)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-/*
-create table librarian
-Librarian: This table includes basic information for librarians. 
-It can implement two functions: book management and reader management.
-*/
-/*
-CREATE TABLE IF NOT EXISTS librarian(
-	id VARCHAR(30) PRIMARY KEY,#librarian id
-	mname INT NOT NULL,#librarian name
-	pwd VARCHAR(30) NOT NULL#librarian passward
-)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-*/
+
 /*
 create table bookmanage
 This class contains basic information about the book, such as the book number, author, ISBN, etc. 
@@ -50,26 +39,22 @@ CREATE TABLE IF NOT EXISTS book(
 	bname VARCHAR(30) NOT NULL,#book name
 	author VARCHAR(30) NOT NULL,#one auther for each book
 	isbn VARCHAR(30) NOT NULL UNIQUE,#book ISBN
-	price INT NOT NULL,#book price
-	`type` VARCHAR(30),  # book type
-	introduction VARCHAR(100), # book introduction
-	barcode  VARCHAR(30),#book barcode
+	price DECIMAL(10, 2) NOT NULL,#book price
+	TYPE VARCHAR(30),  # book type
+	introduction VARCHAR(2000), # book introduction
 	racknum  VARCHAR(30), #book racknumber
 	copiesnum INT, #number of copies
-	`total` INT DEFAULT 0 NOT NULL,
+	total INT DEFAULT 0 NOT NULL,
+	publishing VARCHAR(50),
+	published VARCHAR(30),
+	photoUrl VARCHAR(100),
 	`resvnum` INT DEFAULT 0 NOT NULL
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-/*
-create table author
-There may be more than one author of the book, so create an author table
-*/
-/*
-CREATE TABLE IF NOT EXISTS author(
-	id VARCHAR(30) PRIMARY KEY,#book id
-	aname VARCHAR(30) NOT NULL#author name
-)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-*/
+UPDATE reservation SET notify = 0
+WHERE resv_id = 1;
+
+
 
 
 /*
@@ -83,6 +68,7 @@ CREATE TABLE IF NOT EXISTS borrowmanage(
 	book_id INT NOT NULL,#book id
 	lend_date DATE NOT NULL,#book lend date
 	back_date DATE NOT NULL,#book back date
+	ispay INT DEFAULT 0, # 0代表未付款，1代表已付款
 	CONSTRAINT fk_members_borrow FOREIGN KEY(reader_id) REFERENCES members(id),
 	CONSTRAINT fk_book_borrow FOREIGN KEY(book_id) REFERENCES book(bid)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -101,6 +87,7 @@ CREATE TABLE reservation(
 	`reader_id` VARCHAR(30) NOT NULL, 
 	`book_id` INT NOT NULL, 
 	`time` TIMESTAMP NOT NULL COMMENT 'time of reservation', 
+	notify INT DEFAULT 0,	# 如果为1，表明通知用户取书
 	PRIMARY KEY (`resv_id`),
 	# 级联删除，确保完整性不会被破坏
 	CONSTRAINT fk_members_reservation FOREIGN KEY(reader_id) REFERENCES members(id)
@@ -109,64 +96,3 @@ CREATE TABLE reservation(
 		ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
-# test
-INSERT INTO borrowmanage (`reader_id`, `book_id`, `lend_date`, `back_date`) 
-VALUES ('19030501', '5', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 10 DAY)); 
-
-UPDATE borrowmanage
-SET back_date = DATE_ADD(back_date, INTERVAL 10 DAY)
-WHERE borrow_id = 3;
-
-DELETE FROM borrowmanage
-WHERE borrow_id = 3;
-
-
-SELECT DATEDIFF(back_date, CURDATE())
-FROM borrowmanage
-WHERE borrow_id = 5;
-SELECT DATEDIFF(back_date, DATE_ADD(back_date, INTERVAL 10 DAY))
-FROM borrowmanage
-WHERE borrow_id = 5;
-
-UPDATE book
-SET copiesnum = copiesnum+1
-WHERE bid = 5;
-
-UPDATE book
-SET copiesnum = copiesnum-1
-WHERE bid = 5;
-
-UPDATE members
-SET borrownum = borrownum+1
-WHERE id = 19030501;
-
-UPDATE members
-SET borrownum = borrownum-1
-WHERE id = 19030501;
-
-SELECT copiesnum
-FROM book
-WHERE bid = 5
-
-SELECT book_id
-FROM borrowmanage
-WHERE borrow_id = 5;
-
-SELECT
-  IF(DATEDIFF(CURDATE(), back_date)<0, 0, DATEDIFF(CURDATE(), back_date))
-FROM borrowmanage
-WHERE borrow_id = 10;
-
-# 预约表测试
-INSERT INTO reservation (`reader_id`, `book_id`, `time`) 
-VALUES ('19030503', 7, CURRENT_TIMESTAMP()); 
-INSERT INTO reservation (`reader_id`, `book_id`, `time`) 
-VALUES ('19030502', 7, CURRENT_TIMESTAMP()); 
-
-SELECT *
-FROM reservation
-WHERE book_id = 7 AND `time` <= ALL (SELECT `time` FROM reservation WHERE book_id = 7);
-
-DELETE FROM reservation
-WHERE resv_id = 2;

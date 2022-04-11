@@ -272,12 +272,7 @@ public class MemberServiceImpl implements MemberService {
         if(hostHolder.getMember().getCard_state() == 0) {
             return "card_state异常";
         }
-        // 余额是否充足
-        // 逾期1天1块钱
-        // backMinusCur = back_date - cur_date
-        if(borrowMapper.getFine(borrow_id) > hostHolder.getMember().getAccount()){
-            return "余额不足";
-        }
+
         int book_id = borrowMapper.getBookId(borrow_id);
         // 图书剩余数+1
         bookMapper.addCopiesNum(book_id);
@@ -296,12 +291,47 @@ public class MemberServiceImpl implements MemberService {
             borrowMapper.addBorrow(resv.getReader_id(), book_id);
             // 图书剩余数-1
             bookMapper.reduceCopiesNum(book_id);
-            // 增加一条借阅记录
+            // 用户借阅数+1
             memberMapper.addBorrowNum(resv.getReader_id());
-            // 删除一条预约记录
-            reservationMapper.deleteReservation(resv.getResv_id());
+            // 将reservation表的notify字段置为1
+            reservationMapper.updateNotify(resv.getResv_id());
         }
         return "还书成功";
+    }
+
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 返回是否欠款以及欠款金额的信息
+     * @Date 2022/4/11 21:47
+     */
+    @Override
+    public Map<String, Object> isFined(int borrow_id) {
+        Map<String, Object> map = new HashMap<>();
+        int fine = (int) borrowMapper.getFine(borrow_id);
+        if(fine == 0) {
+            map.put("msg", "无欠费");
+            map.put("fine", fine);
+        }
+        else {
+            map.put("msg", "欠费");
+            map.put("fine", fine);
+        }
+        return map;
+    }
+
+    public List<Reservation> notifyReservation() {
+        return reservationMapper.getResvByReaderId(hostHolder.getMember().getId());
+    }
+
+    public int deleteReservation(List<Integer> reservations){
+
+        for(int resv_id : reservations) {
+            reservationMapper.deleteReservation(resv_id);
+        }
+
+        return 0;
     }
 
     @Transactional(rollbackFor = Exception.class)

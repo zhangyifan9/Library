@@ -19,27 +19,14 @@ public class Book {
     private String bname ;
     private String author;
     private String isbn;
-    private Integer price;
+    private Double price;
     private String type;
     private String introduction;
-    private String barcode;
     private String racknum;
     private Integer copiesnum;
     private Integer total;
-    // 记录当前书籍的预约数
-    private Integer resvnum;
+    private String publishing;
+    private String published;
+    private String photoUrl;
 
-    public Book(Integer total ,String author, Integer copiesnum,String bname, String type, Integer bid, String isbn, Integer price, String introduction, String barcode, String racknum) {
-        this.bname = bname;
-        this.type = type;
-        this.author = author;
-        this.copiesnum = copiesnum;
-        this.bid = bid;
-        this.isbn = isbn;
-        this.price = price;
-        this.introduction = introduction;
-        this.barcode = barcode;
-        this.racknum = racknum;
-        this.total = total;
-    }
 }

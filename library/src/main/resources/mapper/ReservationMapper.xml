@@ -23,7 +23,18 @@
     <select id="getResvByReadAndBook" resultType="reservation">
         SELECT *
         FROM reservation
-        WHERE reader_id = #{reader_id} AND book_id = #{book_id}
+        WHERE reader_id = #{reader_id} AND book_id = #{book_id};
     </select>
+
+    <select id="getResvByReaderId" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE reader_id = #{reader_id} AND notify = 1;
+    </select>
+
+    <update id="updateNotify">
+        UPDATE reservation SET notify = 1
+        WHERE resv_id = #{resv_id};
+    </update>
 
 </mapper>

@@ -3,10 +3,12 @@ package com.library.controller;
 import com.library.bean.Book;
 import com.library.bean.RespPage;
 import com.library.service.BookService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,12 +48,19 @@ public class BookManageController {
      */
 //    @LibrarianRequired
 //    @LoginRequired
+    /**
+     * @param book:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description TODO
+     * @Date 2022/4/11 20:04
+     */
     @RequestMapping(path = "/bookManage/insert",method = RequestMethod.POST)
     @CrossOrigin(origins = "*",allowCredentials = "true")
-    public Map<String,Object> insert(Book book){
+    public Map<String,Object> insert(@Param("isbn") String isbn, @Param("type") String type, @Param("racknum") String racknum, @Param("total") Integer total) throws ParseException {
         Map<String,Object> map = new HashMap<>();
 
-        Integer ans =  bookService.insert(book);
+        Integer ans =  bookService.insert(isbn, type, racknum, total);
         if(ans == 1)
         {
             //insert返回结果是1证明数据库中已经存在该书

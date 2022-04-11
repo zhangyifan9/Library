@@ -38,17 +38,19 @@ public class BookMapperTests {
     public void insert()
     {
         Book book = new Book();
-        book.setBid(100);
+        book.setBid(0);
         book.setBname("small dog");
         book.setAuthor("me");
-        book.setIsbn("1sa23eqw");
-        book.setPrice(100);
+        book.setIsbn("1sa24");
+        book.setPrice(100.10);
         book.setType("ala");
         book.setIntroduction("first book");
-        book.setBarcode("1010111000");
         book.setRacknum("101");
         book.setCopiesnum(10);
         book.setTotal(10);
+        book.setPublished("2022-04-12");
+        book.setPublishing("太阳出版上");
+        book.setPhotoUrl("www.asdasd.cm");
         Integer rows = bookMapper.insert(book);
         System.out.println(rows);
     }
@@ -61,13 +63,15 @@ public class BookMapperTests {
         book.setBname("small pig");
         book.setAuthor("me");
         book.setIsbn("1sa23");
-        book.setPrice(100);
+        book.setPrice(100.10);
         book.setType("ala");
         book.setIntroduction("first book");
-        book.setBarcode("1010111000");
         book.setRacknum("101");
         book.setCopiesnum(10);
         book.setTotal(10);
+        book.setPublished("2022-04-11");
+        book.setPublishing("太阳出版上");
+        book.setPhotoUrl("www.asdasd.cm");
         Integer rows = bookMapper.changeBook(book);
         System.out.println(rows);
     }
@@ -88,11 +92,28 @@ public class BookMapperTests {
         System.out.println(book);
     }
 
+
+    @Test
+    public void findbookbypublished()
+    {
+        String published = "2022-04-11";
+        List <Book> book = bookMapper.findBooksByPublished(published,0,10);
+        System.out.println(book);
+    }
+
     @Test
     public void findbybId()
     {
 
         Book book = bookMapper.findBookByid(2);
+        System.out.println(book);
+    }
+
+    @Test
+    public void findallbook()
+    {
+
+        List <Book> book = bookMapper.findAllBooks(0,10);
         System.out.println(book);
     }
 

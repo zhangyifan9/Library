@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.library.mapper.ReservationMapper">
+    <insert id="addReservation">
+        INSERT INTO reservation (`reader_id`, `book_id`, `time`)
+        VALUES (#{reader_id}, #{book_id}, CURRENT_TIMESTAMP());
+    </insert>
+
+    <delete id="deleteReservation">
+        DELETE FROM reservation
+        WHERE resv_id = #{resv_id};
+    </delete>
+
+    <select id="getEarliestByBookId" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE book_id = #{book_id} AND `time` &lt;= ALL (SELECT `time` FROM reservation WHERE book_id = #{book_id});
+    </select>
+
+    <select id="getResvByReadAndBook" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE reader_id = #{reader_id} AND book_id = #{book_id};
+    </select>
+
+    <select id="getResvByReaderId" resultType="reservation">
+        SELECT *
+        FROM reservation
+        WHERE reader_id = #{reader_id} AND notify = 1;
+    </select>
+
+    <update id="updateNotify">
+        UPDATE reservation SET notify = 1
+        WHERE resv_id = #{resv_id};
+    </update>
+
+</mapper>

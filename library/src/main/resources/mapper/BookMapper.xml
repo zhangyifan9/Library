@@ -18,12 +18,21 @@
         WHERE author LIKE "%"#{bauthor}"%"
     </select>
 
+    <select id = "findBookCountByPublished" parameterType="string" resultType="Integer">
+        SELECT COUNT(*) FROM book
+        WHERE published = #{published}
+    </select>
+
+    <select id = "findBookCountAll" parameterType="string" resultType="Integer">
+        SELECT COUNT(*) FROM book
+    </select>
+
 
     <insert id="insert">
         INSERT INTO book (bid,bname, author, isbn, price, `type`,
-                          introduction, barcode, racknum, copiesnum, total)
+                          introduction, racknum, copiesnum, total,publishing,published,photoUrl )
         VALUES (#{bid},#{bname}, #{author}, #{isbn}, #{price}, #{type},
-                #{introduction}, #{barcode}, #{racknum}, #{copiesnum}, #{total})
+                #{introduction}, #{racknum}, #{copiesnum}, #{total},#{publishing},#{published},#{photoUrl})
     </insert>
 
 
@@ -52,11 +61,25 @@
             LIMIT #{offset}, #{limit}
     </select>
 
+    <select id="findBooksByPublished" resultType="com.library.bean.Book">
+        SELECT * FROM book
+        WHERE Published = #{published}
+        ORDER BY bId
+            LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="findAllBooks" resultType="com.library.bean.Book">
+        SELECT * FROM book
+
+        ORDER BY bId
+            LIMIT #{offset}, #{limit}
+    </select>
 
     <update id="changeBook">
         UPDATE book
         SET bname  = #{bname}, author = #{author}, isbn = #{isbn}, price = #{price}, type =#{type},
-            introduction = #{introduction}, barcode = #{barcode}, racknum = #{racknum}, copiesnum = #{copiesnum}, total = #{total}
+            introduction = #{introduction}, racknum = #{racknum}, copiesnum = #{copiesnum}, total = #{total},
+            publishing = #{publishing}, published = #{published}, photoUrl = #{photoUrl}
         WHERE bid  = #{bid}
     </update>
 
@@ -79,6 +102,24 @@
 
     <select id="getCopiesNumById" resultType="int">
         SELECT copiesnum
+        FROM book
+        WHERE bid = #{book_id}
+    </select>
+
+    <update id="addResvNum">
+        UPDATE book
+        SET resvnum = resvnum+1
+        WHERE bid = #{book_id};
+    </update>
+
+    <update id="reduceResvNum">
+        UPDATE book
+        SET resvnum = resvnum-1
+        WHERE bid = #{book_id};
+    </update>
+
+    <select id="getResvNumById" resultType="int">
+        SELECT resvnum
         FROM book
         WHERE bid = #{book_id}
     </select>

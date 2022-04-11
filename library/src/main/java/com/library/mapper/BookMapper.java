@@ -31,6 +31,9 @@ public interface BookMapper {
     //返回图书数
     public Integer findBookCountByName(@Param("name") String name);
     public Integer findBookCountByAuthor(@Param("bauthor") String bauthor);
+    public Integer findBookCountByPublished(@Param("published") String published);
+    public Integer findBookCountAll();
+
 
     /**
      * 根据书名返回书的信息
@@ -54,6 +57,11 @@ public interface BookMapper {
      * @return  返回书列表，若没有找到则返回null
      */
     public List<Book> findBooksByAuthor(@Param("bauthor") String bauthor, @Param("offset") Integer offset, @Param("limit") Integer limit);
+
+    public List<Book> findBooksByPublished(@Param("published") String published,@Param("offset") Integer offset, @Param("limit") Integer limit);
+
+
+    public List<Book> findAllBooks(@Param("offset") Integer offset, @Param("limit") Integer limit);
 
     /**
      * 修改书的信息，这里的通过先查找到这本书，要修改这本书时，
@@ -81,4 +89,13 @@ public interface BookMapper {
 
     // 获取指定book_id的copiesnum
     public int getCopiesNumById(int book_id);
+
+    // 预约数+1
+    public int addResvNum(int book_id);
+
+    // 预约数-1
+    public int reduceResvNum(int book_id);
+
+    // 获取指定书籍的预约数
+    public int getResvNumById(int book_id);
 }

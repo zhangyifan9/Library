@@ -4,13 +4,12 @@ package com.library.service.impl;
 import com.library.bean.Borrow;
 import com.library.bean.LoginTicket;
 import com.library.bean.Member;
-import com.library.mapper.BookMapper;
-import com.library.mapper.BorrowMapper;
-import com.library.mapper.LoginTicketMapper;
-import com.library.mapper.MemberMapper;
+import com.library.bean.Reservation;
+import com.library.mapper.*;
 import com.library.service.MemberService;
 import com.library.utils.CommonUtils;
 import com.library.utils.HostHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class MemberServiceImpl implements MemberService {
     @Autowired
@@ -30,6 +30,8 @@ public class MemberServiceImpl implements MemberService {
     private BorrowMapper borrowMapper;
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private ReservationMapper reservationMapper;
 
     //登录的业务逻辑
     @Override
@@ -231,7 +233,7 @@ public class MemberServiceImpl implements MemberService {
             return "card_state异常";
         }
         // 超出最大借阅数
-        if(hostHolder.getMember().getBorrownum() >= 5) {
+        if(hostHolder.getMember().getBorrownum()+hostHolder.getMember().getResvnum() >= 5) {
             return "超出最大借阅数";
         }
         // 书已被全部借出
@@ -252,11 +254,11 @@ public class MemberServiceImpl implements MemberService {
             return "card_state异常";
         }
         // 检查待续借图书是否已经超期。如已超期，则无法继续执行续借操作。
-        if(borrowMapper.calDiffCur(borrow_id) < 0){
+        if(borrowMapper.backMinusCur(borrow_id) < 0){
             return "已超期";
         }
         // 检查`back_date - lend_date`是否大于等于40（已经执行了3次续借操作）。若大于等于40，则无法继续续借。
-        if(borrowMapper.calDiffLend(borrow_id) >= 40){
+        if(borrowMapper.backMinusLend(borrow_id) >= 40){
             return "超过最大续借次数";
         }
         borrowMapper.renewBorrow(borrow_id);
@@ -265,21 +267,91 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public String returnBook(int borrow_id, double payment) {
+    public String returnBook(int borrow_id) {
         // card_state异常
         if(hostHolder.getMember().getCard_state() == 0) {
             return "card_state异常";
         }
-        // 余额是否充足
-        // 逾期1天1块钱
-        // calDiffCur = cur_date - back_date
-        if(-borrowMapper.calDiffCur(borrow_id) > payment){
-            return "余额不足";
-        }
+
         int book_id = borrowMapper.getBookId(borrow_id);
+        // 图书剩余数+1
         bookMapper.addCopiesNum(book_id);
+        // 读者已借阅数-1
         memberMapper.reduceBorrowNum(hostHolder.getMember().getId());
+        // 删除借阅记录
         borrowMapper.deleteBorrow(borrow_id);
+        // 如有人预约了该书，进行借阅操作
+        if(bookMapper.getResvNumById(book_id) > 0){
+            Reservation resv = reservationMapper.getEarliestByBookId(book_id);
+            // 用户预约数-1
+            memberMapper.reduceResvNum(resv.getReader_id());
+            // 书籍预约数-1
+            bookMapper.reduceResvNum(book_id);
+            // 增加一条借阅记录
+            borrowMapper.addBorrow(resv.getReader_id(), book_id);
+            // 图书剩余数-1
+            bookMapper.reduceCopiesNum(book_id);
+            // 用户借阅数+1
+            memberMapper.addBorrowNum(resv.getReader_id());
+            // 将reservation表的notify字段置为1
+            reservationMapper.updateNotify(resv.getResv_id());
+        }
         return "还书成功";
+    }
+
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 返回是否欠款以及欠款金额的信息
+     * @Date 2022/4/11 21:47
+     */
+    @Override
+    public Map<String, Object> isFined(int borrow_id) {
+        Map<String, Object> map = new HashMap<>();
+        int fine = (int) borrowMapper.getFine(borrow_id);
+        if(fine == 0) {
+            map.put("msg", "无欠费");
+            map.put("fine", fine);
+        }
+        else {
+            map.put("msg", "欠费");
+            map.put("fine", fine);
+        }
+        return map;
+    }
+
+    public List<Reservation> notifyReservation() {
+        return reservationMapper.getResvByReaderId(hostHolder.getMember().getId());
+    }
+
+    public int deleteReservation(List<Integer> reservations){
+
+        for(int resv_id : reservations) {
+            reservationMapper.deleteReservation(resv_id);
+        }
+
+        return 0;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public String reserveBook(int book_id) {
+        // card_state异常
+        if(hostHolder.getMember().getCard_state() == 0) {
+            return "card_state异常";
+        }
+        // 超出最大借阅数
+        if(hostHolder.getMember().getBorrownum()+hostHolder.getMember().getResvnum() >= 5) {
+            return "超出最大借阅数";
+        }
+        // 已预约过该书籍
+        if(reservationMapper.getResvByReadAndBook(hostHolder.getMember().getId(), book_id) != null){
+            return "不可重复预约";
+        }
+        reservationMapper.addReservation(hostHolder.getMember().getId(), book_id);
+        memberMapper.addResvNum(hostHolder.getMember().getId());
+        bookMapper.addResvNum(book_id);
+        return "预约成功";
     }
 }

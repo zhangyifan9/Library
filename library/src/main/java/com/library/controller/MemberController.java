@@ -2,6 +2,8 @@ package com.library.controller;
 
 import com.library.annotation.LoginRequired;
 import com.library.bean.Borrow;
+import com.library.bean.Reservation;
+import com.library.service.BookService;
 import com.library.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -85,7 +87,13 @@ public class MemberController {
         return memberService.checkBorrowInformation();
     }
 
-    // 还书后，书籍划到预约者名下暂未实现
+    /**
+     * @param book_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 借书功能
+     * @Date 2022/4/10 16:39
+     */
     @LoginRequired
     @RequestMapping(path = "member/borrowBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
@@ -96,6 +104,13 @@ public class MemberController {
         return map;
     }
 
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 续借功能
+     * @Date 2022/4/10 16:39
+     */
     @LoginRequired
     @RequestMapping(path = "member/renewBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
@@ -106,14 +121,81 @@ public class MemberController {
         return map;
     }
 
-    // 扣款功能暂未实现
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 还书功能, 只有没有欠款信息后，才能调用这个controller
+     * @Date 2022/4/10 16:39
+     */
     @LoginRequired
     @RequestMapping(path = "member/returnBook", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowCredentials = "true")
-    public Map<String, Object> returnBook(@RequestParam int borrow_id, @RequestParam double payment) {
-        String msg = memberService.returnBook(borrow_id, payment);
+    public Map<String, Object> returnBook(@RequestParam int borrow_id) {
+        String msg = memberService.returnBook(borrow_id);
         Map<String,Object> map = new HashMap<>();
         map.put("msg",msg);
         return map;
     }
+
+    /**
+     * @param borrow_id:
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 预约图书
+     * @Date 2022/4/10 16:40
+     */
+    @LoginRequired
+    @RequestMapping(path = "member/reserveBook", method = RequestMethod.POST)
+    @CrossOrigin(origins = "*", allowCredentials = "true")
+    public Map<String, Object> reserveBook(@RequestParam int book_id) {
+        String msg = memberService.reserveBook(book_id);
+        Map<String,Object> map = new HashMap<>();
+        map.put("msg",msg);
+        return map;
+    }
+
+    /**
+     * @param borrow_id: 借阅id
+     * @return Map<String,Object>
+     * @Author Zilong Lin
+     * @Description 返回指定borrow_id是否欠款以及欠款金额的信息
+     * @Date 2022/4/11 22:03
+     */
+    @LoginRequired
+    @RequestMapping(path = "member/isFined", method = RequestMethod.POST)
+    @CrossOrigin(origins = "*", allowCredentials = "true")
+    public Map<String, Object> isFined(@RequestParam int borrow_id) {
+        return memberService.isFined(borrow_id);
+    }
+
+    /**
+     * @param :
+     * @return List<Reservation>
+     * @Author Zilong Lin
+     * @Description 通知用户所有预约到库的信息
+     * @Date 2022/4/11 22:13
+     */
+    @LoginRequired
+    @RequestMapping(path = "member/notifyReservation", method = RequestMethod.POST)
+    @CrossOrigin(origins = "*", allowCredentials = "true")
+    public List<Reservation> notifyReservation() {
+        return memberService.notifyReservation();
+    }
+
+    /**
+     * @param reservations:
+     * @return String
+     * @Author Zilong Lin
+     * @Description 获取用户已确认的预约到库的resv_id
+     * @Date 2022/4/11 22:22
+     */
+    @LoginRequired
+    @RequestMapping(path = "member/updateResvNotify", method = RequestMethod.POST)
+    @CrossOrigin(origins = "*", allowCredentials = "true")
+    public String updateResvNotify(@RequestParam("reservations") List<Integer> reservations) {
+        memberService.deleteReservation(reservations);
+        return "success";
+    }
+
 }

@@ -26,13 +26,13 @@
         WHERE borrow_id = #{borrow_id};
     </delete>
 
-    <select id="calDiffCur" resultType="int">
+    <select id="backMinusCur" resultType="int">
         SELECT DATEDIFF(back_date, CURDATE())
         FROM borrowmanage
         WHERE borrow_id = #{borrow_id};
     </select>
 
-    <select id="calDiffLend" resultType="int">
+    <select id="backMinusLend" resultType="int">
         SELECT DATEDIFF(back_date, lend_date)
         FROM borrowmanage
         WHERE borrow_id = #{borrow_id};
@@ -40,6 +40,25 @@
 
     <select id="getBookId" resultType="int">
         SELECT book_id
+        FROM borrowmanage
+        WHERE borrow_id = #{borrow_id};
+    </select>
+
+    <select id="getLendDate" resultType="date">
+        SELECT lend_date
+        FROM borrowmanage
+        WHERE borrow_id = #{borrow_id};
+    </select>
+
+    <select id="getBackDate" resultType="date">
+        SELECT back_date
+        FROM borrowmanage
+        WHERE borrow_id = #{borrow_id};
+    </select>
+
+    <select id="getFine" resultType="double">
+        SELECT
+        IF(DATEDIFF(CURDATE(), back_date) &lt; 0, 0, DATEDIFF(CURDATE(), back_date))
         FROM borrowmanage
         WHERE borrow_id = #{borrow_id};
     </select>

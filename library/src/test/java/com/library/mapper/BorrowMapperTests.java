@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
+
 /**
  * @Author: Zilong Lin
  * @Date: 2022/4/5 22:18
@@ -18,12 +20,12 @@ public class BorrowMapperTests {
 
     @Test
     void testCheckByReaderId() {
-        System.out.println(borrowMapper.checkByReaderId("19030501"));
+        System.out.println(borrowMapper.checkByReaderId("19030502"));
     }
 
     @Test
     void testAdd() {
-        System.out.println(borrowMapper.addBorrow("19030501", 5));
+//        System.out.println(borrowMapper.addBorrow("19030501", 5));
     }
 
     // borrow_id是自动生成的，根据表项目内容测试
@@ -40,7 +42,22 @@ public class BorrowMapperTests {
 
     @Test
     void testCalDate() {
-        System.out.println(borrowMapper.calDiffCur(5));
-        System.out.println(borrowMapper.calDiffLend(5));
+//        System.out.println(borrowMapper.backMinusCur(7));
+//        System.out.println(borrowMapper.backMinusLend(7));
+    }
+
+    @Test
+    void testGetDate() {
+        Date lend_date = borrowMapper.getLendDate(7);
+        Date back_date = borrowMapper.getBackDate(7);
+        System.out.println(lend_date);
+        System.out.println(back_date);
+    }
+
+    @Test
+    void testGetFine() {
+//        System.out.println(borrowMapper.getFine(9));
+//        System.out.println(borrowMapper.getFine(10));
+//        System.out.println(borrowMapper.getFine(11));
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class ISBNUtils {
 
     private static String url = "https://api.jike.xyz/situ/book/isbn/";
-    private static String apikey = "12379.71be299ccae7fc2d7be146a7bba627a6.6c340c05a0ab8a65f57fec9befc030a8";
+    private static String apikey = "";
 
     public static ResData getBookInfoByISBN(String isbn) {
 

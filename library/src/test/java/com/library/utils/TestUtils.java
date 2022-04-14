@@ -18,14 +18,14 @@ public class TestUtils {
     @Test
     void testISBN() {
 
-        String isbn = "9787508622187";
-        ResData resData = ISBNUtils.getBookInfoByISBN(isbn);
-        System.out.println(resData);
-        System.out.println(resData.getData().get("author"));
-        System.out.println(resData.getData().get("photoUrl"));
-        System.out.println("=======================");
-        System.out.println(resData.getData().get("published").getClass());
-        System.out.println(resData.getData().get("published"));
+        String isbn = "9780980200447";
+        ISBNUtils.getBookInfoByISBN(isbn);
+//        System.out.println(resData);
+//        System.out.println(resData.getData().get("author"));
+//        System.out.println(resData.getData().get("photoUrl"));
+//        System.out.println("=======================");
+//        System.out.println(resData.getData().get("published").getClass());
+//        System.out.println(resData.getData().get("published"));
     }
 
 }

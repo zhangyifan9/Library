@@ -15,16 +15,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Book {
 
-    private Integer bid;
+    private String isbn;
     private String bname ;
     private String author;
-    private String isbn;
     private Double price;
     private String type;
     private String introduction;
-    private String racknum;
     private Integer copiesnum;
-    private Integer total;
     private String publishing;
     private String published;
     private String photoUrl;

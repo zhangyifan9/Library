@@ -1,13 +1,11 @@
 package com.library.mapper;
 
-import com.library.bean.Book;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 
 /**
  * @Author: Zilong Lin, Ning Zhang
@@ -34,122 +32,112 @@ public class BookMapperTests {
     private BookMapper bookMapper;
 
 
-    @Test
-    public void insert()
-    {
-        Book book = new Book();
-        book.setBid(0);
-        book.setBname("small dog");
-        book.setAuthor("me");
-        book.setIsbn("1sa24");
-        book.setPrice(100.10);
-        book.setType("ala");
-        book.setIntroduction("first book");
-        book.setRacknum("101");
-        book.setCopiesnum(10);
-        book.setTotal(10);
-        book.setPublished("2022-04-12");
-        book.setPublishing("太阳出版上");
-        book.setPhotoUrl("www.asdasd.cm");
-        Integer rows = bookMapper.insert(book);
-        System.out.println(rows);
-    }
+//    @Test
+//    public void insert()
+//    {
+//        Book book = new Book();
+//        book.setBname("small dog");
+//        book.setAuthor("me");
+//        book.setIsbn("1sa24");
+//        book.setPrice(100.10);
+//        book.setType("ala");
+//        book.setIntroduction("first book");
+//        book.setCopiesnum(10);
+//        book.setPublished("2022-04-12");
+//        book.setPublishing("太阳出版上");
+//        book.setPhotoUrl("www.asdasd.cm");
+//        Integer rows = bookMapper.insert(book);
+//        System.out.println(rows);
+//    }
+//
+//    @Test
+//    public void changeBook()
+//    {
+//        Book book = new Book();
+//        book.setBname("small pig");
+//        book.setAuthor("me");
+//        book.setIsbn("1sa23");
+//        book.setPrice(100.10);
+//        book.setType("ala");
+//        book.setIntroduction("first book");
+//        book.setCopiesnum(10);
+//        book.setPublished("2022-04-11");
+//        book.setPublishing("太阳出版上");
+//        book.setPhotoUrl("www.asdasd.cm");
+//        Integer rows = bookMapper.changeBook(book);
+//        System.out.println(rows);
+//    }
+//
+//    @Test
+//    public void deletebook()
+//    {
+//        String isbn = "1234";
+//        Integer rows = bookMapper.deleteBook(isbn);
+//        System.out.println(rows);
+//    }
+//
+//    @Test
+//    public void findbyISBN()
+//    {
+//        String ISBN = "1sa23";
+//        Book book = bookMapper.findBookByISBN(ISBN);
+//        System.out.println(book);
+//    }
+//
+//
+//    @Test
+//    public void findbookbypublished()
+//    {
+//        String published = "2022-04-11";
+//        List <Book> book = bookMapper.findBooksByPublished(published,0,10);
+//        System.out.println(book);
+//    }
+//
+//
+//    @Test
+//    public void findallbook()
+//    {
+//
+//        List <Book> book = bookMapper.findAllBooks(0,10);
+//        System.out.println(book);
+//    }
+//
+//    @Test
+//    public void findbyname()
+//    {
+//        List <Book> book = bookMapper.findBookByname("small dog",0,1);
+//        System.out.println(book.size());
+//    }
+//    @Test
+//    public void findbyauthor()
+//    {
+//        List <Book> book = bookMapper.findBooksByAuthor("me",0,2);
+//        System.out.println(book.size());
+//    }
+//    @Test
+//    public void counttest()
+//    {
+//        Integer ans = bookMapper.findBookCountByAuthor("me");
+//        System.out.println(ans);
+//    }
+//
+//    @Test
+//    public void testAddCopiesNum(){
+//        System.out.println(bookMapper.addCopiesNum("100001010"));
+//    }
+//
+//    @Test
+//    public void testReduceCopiesNum(){
+//        System.out.println(bookMapper.reduceCopiesNum("100001010"));
+//    }
 
     @Test
-    public void changeBook()
-    {
-        Book book = new Book();
-        book.setBid(1);
-        book.setBname("small pig");
-        book.setAuthor("me");
-        book.setIsbn("1sa23");
-        book.setPrice(100.10);
-        book.setType("ala");
-        book.setIntroduction("first book");
-        book.setRacknum("101");
-        book.setCopiesnum(10);
-        book.setTotal(10);
-        book.setPublished("2022-04-11");
-        book.setPublishing("太阳出版上");
-        book.setPhotoUrl("www.asdasd.cm");
-        Integer rows = bookMapper.changeBook(book);
-        System.out.println(rows);
-    }
-
-    @Test
-    public void deletebook()
-    {
-        Integer bid = 2;
-        Integer rows = bookMapper.deleteBook(bid);
-        System.out.println(rows);
-    }
-
-    @Test
-    public void findbyISBN()
-    {
-        String ISBN = "1sa23";
-        Book book = bookMapper.findBookByISBN(ISBN);
-        System.out.println(book);
-    }
-
-
-    @Test
-    public void findbookbypublished()
-    {
-        String published = "2022-04-11";
-        List <Book> book = bookMapper.findBooksByPublished(published,0,10);
-        System.out.println(book);
-    }
-
-    @Test
-    public void findbybId()
-    {
-
-        Book book = bookMapper.findBookByid(2);
-        System.out.println(book);
-    }
-
-    @Test
-    public void findallbook()
-    {
-
-        List <Book> book = bookMapper.findAllBooks(0,10);
-        System.out.println(book);
-    }
-
-    @Test
-    public void findbyname()
-    {
-        List <Book> book = bookMapper.findBookByname("small dog",0,1);
-        System.out.println(book.size());
-    }
-    @Test
-    public void findbyauthor()
-    {
-        List <Book> book = bookMapper.findBooksByAuthor("me",0,2);
-        System.out.println(book.size());
-    }
-    @Test
-    public void counttest()
-    {
-        Integer ans = bookMapper.findBookCountByAuthor("me");
+    public void testAddcopies(){
+        int ans = bookMapper.addCopies(0,"9780140328721","B101, 1st Floor, South Building, 2 A, 5 columns, 1-3 floors",0,0);
         System.out.println(ans);
     }
 
-    @Test
-    public void testAddCopiesNum(){
-        System.out.println(bookMapper.addCopiesNum(5));
-    }
 
-    @Test
-    public void testReduceCopiesNum(){
-        System.out.println(bookMapper.reduceCopiesNum(5));
-    }
-
-    @Test
-    public void testGetCopiesNumById() {
-        System.out.println(bookMapper.getCopiesNumById(5));
-    }
 
 
 }

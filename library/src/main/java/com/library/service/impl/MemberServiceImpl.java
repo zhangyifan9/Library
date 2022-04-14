@@ -237,11 +237,11 @@ public class MemberServiceImpl implements MemberService {
             return "超出最大借阅数";
         }
         // 书已被全部借出
-        if(bookMapper.getCopiesNumById(book_id) <= 0) {
-            return "书已被全部借出";
-        }
+//        if(bookMapper.getCopiesNumById(book_id) <= 0) {
+//            return "书已被全部借出";
+//        }
         borrowMapper.addBorrow(hostHolder.getMember().getId(), book_id);
-        bookMapper.reduceCopiesNum(book_id);
+//        bookMapper.reduceCopiesNum(book_id);
         memberMapper.addBorrowNum(hostHolder.getMember().getId());
         return "借书成功";
     }
@@ -273,29 +273,29 @@ public class MemberServiceImpl implements MemberService {
             return "card_state异常";
         }
 
-        int book_id = borrowMapper.getBookId(borrow_id);
-        // 图书剩余数+1
-        bookMapper.addCopiesNum(book_id);
-        // 读者已借阅数-1
-        memberMapper.reduceBorrowNum(hostHolder.getMember().getId());
-        // 删除借阅记录
-        borrowMapper.deleteBorrow(borrow_id);
-        // 如有人预约了该书，进行借阅操作
-        if(bookMapper.getResvNumById(book_id) > 0){
-            Reservation resv = reservationMapper.getEarliestByBookId(book_id);
-            // 用户预约数-1
-            memberMapper.reduceResvNum(resv.getReader_id());
-            // 书籍预约数-1
-            bookMapper.reduceResvNum(book_id);
-            // 增加一条借阅记录
-            borrowMapper.addBorrow(resv.getReader_id(), book_id);
-            // 图书剩余数-1
-            bookMapper.reduceCopiesNum(book_id);
-            // 用户借阅数+1
-            memberMapper.addBorrowNum(resv.getReader_id());
-            // 将reservation表的notify字段置为1
-            reservationMapper.updateNotify(resv.getResv_id());
-        }
+//        int book_id = borrowMapper.getBookId(borrow_id);
+//        // 图书剩余数+1
+//        bookMapper.addCopiesNum(book_id);
+//        // 读者已借阅数-1
+//        memberMapper.reduceBorrowNum(hostHolder.getMember().getId());
+//        // 删除借阅记录
+//        borrowMapper.deleteBorrow(borrow_id);
+//        // 如有人预约了该书，进行借阅操作
+//        if(bookMapper.getResvNumById(book_id) > 0){
+//            Reservation resv = reservationMapper.getEarliestByBookId(book_id);
+//            // 用户预约数-1
+//            memberMapper.reduceResvNum(resv.getReader_id());
+//            // 书籍预约数-1
+//            bookMapper.reduceResvNum(book_id);
+//            // 增加一条借阅记录
+//            borrowMapper.addBorrow(resv.getReader_id(), book_id);
+//            // 图书剩余数-1
+//            bookMapper.reduceCopiesNum(book_id);
+//            // 用户借阅数+1
+//            memberMapper.addBorrowNum(resv.getReader_id());
+//            // 将reservation表的notify字段置为1
+//            reservationMapper.updateNotify(resv.getResv_id());
+//        }
         return "还书成功";
     }
 
@@ -351,7 +351,7 @@ public class MemberServiceImpl implements MemberService {
         }
         reservationMapper.addReservation(hostHolder.getMember().getId(), book_id);
         memberMapper.addResvNum(hostHolder.getMember().getId());
-        bookMapper.addResvNum(book_id);
+//        bookMapper.addResvNum(book_id);
         return "预约成功";
     }
 }

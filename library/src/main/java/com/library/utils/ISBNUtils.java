@@ -34,8 +34,15 @@ import java.net.URLEncoder;
 @Slf4j
 public class ISBNUtils {
 
+<<<<<<< HEAD
     private static String front_url = "https://openlibrary.org/api/books?bibkeys=ISBN:";
     private static String back_url = "&jscmd=data&format=json";
+=======
+    private static String url = "https://api.jike.xyz/situ/book/isbn/";
+    private static String apikey = "";
+
+    public static ResData getBookInfoByISBN(String isbn) {
+>>>>>>> 248c2975443aa6bd1bee1bb76e274e864c68837a
 
     public static String getBookInfoByISBN(String isbn) {
 //        String url = front_url+isbn+back_url;

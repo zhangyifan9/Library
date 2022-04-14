@@ -14,16 +14,32 @@ import java.text.ParseException;
 //图书馆里模块业务层的实现类
 public interface BookService {
 
-    public Integer insert(String isbn, String type, String racknum, Integer total) throws ParseException;
-    public Book findBookByid(Integer bId);
+
     public Integer findBookCountByName(String bName);
     public RespPage findBookByname(String bName, Integer page, Integer size);
     public Book findBookByISBN (String ISBN );
     public RespPage findBooksByAuthor(String bauthor, Integer page, Integer size);
+    public Integer insert(String isbn,String bname, String author, String subject, String introduction, String publishing, String published, String photoUrl, String racknum, Integer total);
+
     public Integer changeBook(Book book);
-    public Integer deleteBook(Integer bId );
+    public Integer deleteBook(String isbn );
 
-    public RespPage findBooksByPublished(String published, Integer page,Integer limit);
+    public RespPage findBooksByPublished(String published, Integer page,Integer size);
 
-    public RespPage findAllBooks(Integer page, Integer limit);
+    public RespPage findAllBooks(Integer page, Integer size);
+
+    public RespPage findAllCopies(String isbn,Integer page,Integer size );
+
+    public Integer addCopies(Integer barcode, String isbn,String racknum);
+
+    public  Integer deleteCopies(Integer barcode,String isbn);
+
+    public Integer reserveCopies(Integer barcode);
+
+    public Integer cancelReserveCopies(Integer barcode);
+
+    public Integer borrowCopies(Integer barcode);
+
+    public Integer cancelBorrowCopies(Integer barcode);
+
 }

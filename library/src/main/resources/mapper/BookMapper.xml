@@ -28,28 +28,14 @@
     </select>
 
 
-    <insert id="insert">
-        INSERT INTO book (bid,bname, author, isbn, price, `type`,
-                          introduction, racknum, copiesnum, total,publishing,published,photoUrl )
-        VALUES (#{bid},#{bname}, #{author}, #{isbn}, #{price}, #{type},
-                #{introduction}, #{racknum}, #{copiesnum}, #{total},#{publishing},#{published},#{photoUrl})
-    </insert>
-
-
-    <select id="findBookByid" resultType="com.library.bean.Book">
-        SELECT * FROM book WHERE bid = #{bid}
-    </select>
-
-
     <select id="findBookByISBN" resultType="com.library.bean.Book">
-        SELECT * FROM book WHERE ISBN = #{ISBN};
+        SELECT * FROM book WHERE isbn = #{isbn};
     </select>
 
     <select id="findBookByname"  resultType="com.library.bean.Book">
         SELECT * FROM book
         WHERE bname
             LIKE "%"#{name}"%"
-        ORDER BY bid
             LIMIT #{offset}, #{limit}
     </select>
 
@@ -57,47 +43,52 @@
         SELECT * FROM book
         WHERE author
                   LIKE "%"#{bauthor}"%"
-        ORDER BY bId
             LIMIT #{offset}, #{limit}
     </select>
 
     <select id="findBooksByPublished" resultType="com.library.bean.Book">
         SELECT * FROM book
         WHERE Published = #{published}
-        ORDER BY bId
             LIMIT #{offset}, #{limit}
     </select>
 
     <select id="findAllBooks" resultType="com.library.bean.Book">
         SELECT * FROM book
-
-        ORDER BY bId
             LIMIT #{offset}, #{limit}
     </select>
 
+
+    <insert id="insert">
+        INSERT INTO book (isbn,bname, author,price, `type`,
+                          introduction, copiesnum, publishing,published,photoUrl )
+        VALUES (#{isbn},#{bname}, #{author}, #{price}, #{type},
+                #{introduction},  #{copiesnum}, #{publishing},#{published},#{photoUrl})
+    </insert>
+
+
     <update id="changeBook">
         UPDATE book
-        SET bname  = #{bname}, author = #{author}, isbn = #{isbn}, price = #{price}, type =#{type},
-            introduction = #{introduction}, racknum = #{racknum}, copiesnum = #{copiesnum}, total = #{total},
+        SET bname  = #{bname}, author = #{author}, price = #{price}, type =#{type},
+            introduction = #{introduction},  copiesnum = #{copiesnum},
             publishing = #{publishing}, published = #{published}, photoUrl = #{photoUrl}
-        WHERE bid  = #{bid}
+        WHERE isbn  = #{isbn}
     </update>
 
     <delete id="deleteBook">
         DELETE FROM book
-        WHERE bid = #{bid}
+        WHERE isbn = #{isbn}
     </delete>
 
     <update id="addCopiesNum">
         UPDATE book
         SET copiesnum = copiesnum+1
-        WHERE bid = #{book_id};
+        WHERE isbn = #{isbn};
     </update>
 
     <update id="reduceCopiesNum">
         UPDATE book
         SET copiesnum = copiesnum-1
-        WHERE bid = #{book_id};
+        WHERE isbn = #{isbn};
     </update>
 
     <select id="getCopiesNumById" resultType="int">
@@ -123,5 +114,61 @@
         FROM book
         WHERE bid = #{book_id}
     </select>
+
+<!--图书副本相关-->
+
+
+
+
+
+    <select id = "findCountAllCopies" parameterType="string" resultType="Integer">
+        SELECT COUNT(*) FROM copies
+        WHERE isbn = #{isbn}
+    </select>
+
+    <select id="findAllCopies" resultType="com.library.bean.Copies">
+        SELECT * FROM copies
+        WHERE isbn = #{isbn}
+            LIMIT #{offset}, #{limit}
+    </select>
+
+
+
+
+    <insert id="addCopies">
+        INSERT INTO copies (barcode, isbn,racknum,reserved,borrowed)
+        VALUES (#{barcode},#{isbn}, #{racknum},#{reserved},#{borrowed})
+    </insert>
+
+    <delete id="deleteCopies">
+        DELETE FROM copies
+        WHERE barcode = #{barcode}
+    </delete>
+
+    <update id="reserveCopies">
+        UPDATE copies
+        SET reserved = 1
+        WHERE barcode = #{barcode};
+    </update>
+
+    <update id="cancelReserveCopies">
+        UPDATE copies
+        SET reserved = 0
+        WHERE barcode = #{barcode};
+    </update>
+
+    <update id="borrowCopies">
+        UPDATE copies
+        SET borrowed = 1
+        WHERE barcode = #{barcode};
+    </update>
+
+    <update id="cancelBorrowCopies">
+        UPDATE copies
+        SET borrowed = 0
+        WHERE barcode = #{barcode};
+    </update>
+
+
 
 </mapper>

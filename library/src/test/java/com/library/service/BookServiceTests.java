@@ -26,46 +26,44 @@ public class BookServiceTests {
 //        System.out.println(bookService.searchBooksByTitle("A", 2, 5));
 //    }
 
-    @Test
-    void insertTest1(){
-        try {
-            String isbn = "9787544270878";
-            String type = "悬疑类";
-            String racknum = "B203 2架B面4列1-3层";
-            Integer total = 10;
-            System.out.println(bookService.insert(isbn, type, racknum, total));
-        } catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
+//    @Test
+//    void insertTest1(){
+//        try {
+//            String isbn = "9787544270878";
+//            String type = "悬疑类";
+//            String racknum = "B203 2架B面4列1-3层";
+//            Integer total = 10;
+//            System.out.println(bookService.insert(isbn, type, racknum, total));
+//        } catch (Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
-    @Test
-    void insertTest2() {
-        try {
-            String isbn = "9787536692930";
-            String type = "科幻类";
-            String racknum = "B303 2架A面3列1-3层";
-            Integer total = 2;
-            System.out.println(bookService.insert(isbn, type, racknum, total));
-        } catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
+//    @Test
+//    void insertTest2() {
+//        try {
+//            String isbn = "9787536692930";
+//            String type = "科幻类";
+//            String racknum = "B303 2架A面3列1-3层";
+//            Integer total = 2;
+//            System.out.println(bookService.insert(isbn, type, racknum, total));
+//        } catch (Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
     @Test
     void changeBooktest(){
         try {
             Book book = new Book();
-            book.setBid(1);
             book.setBname("jieshu");
             book.setAuthor("ccmal");
             book.setIsbn("100");
             book.setPrice(100.10);
             book.setType("ala");
             book.setIntroduction("first book");
-            book.setRacknum("101");
             book.setCopiesnum(9);
 
             Integer rows = bookService.changeBook(book);
@@ -79,9 +77,9 @@ public class BookServiceTests {
     @Test
     void deletetest(){
         try {
-            Integer id = 3;
+            String isbn = "1234";
 
-            Integer rows = bookService.deleteBook(id);
+            Integer rows = bookService.deleteBook(isbn);
             System.out.println(rows);
         } catch (Exception e)
         {
@@ -90,16 +88,6 @@ public class BookServiceTests {
     }
 
 
-    @Test
-    void testFindBybId(){
-        try {
-            Book book = bookService.findBookByid(1);
-            System.out.println(book.getBname());
-        } catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
 
     @Test
     void testFindByISBN(){

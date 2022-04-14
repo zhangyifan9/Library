@@ -139,7 +139,7 @@ public class MemberController {
     }
 
     /**
-     * @param borrow_id:
+     * @param book_id:
      * @return Map<String,Object>
      * @Author Zilong Lin
      * @Description 预约图书
